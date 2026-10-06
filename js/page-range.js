@@ -5,7 +5,7 @@ function normalize(text) {
   return text
     .replace(/[０-９]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0))
     .replace(/[，、]/g, ',')
-    .replace(/[－~〜～−‐]/g, '-')
+    .replace(/[－~〜～−‐ー―–—]/g, '-')
     .replace(/\s/g, '');
 }
 

@@ -25,6 +25,11 @@ test('~ 〜 ～ も範囲の記号として使える', () => {
   assert.deepEqual(parsePageRange('1～2', 5), [[1, 2]]);
 });
 
+test('日本語入力で出る長音記号やダッシュ類も範囲の記号として使える', () => {
+  assert.deepEqual(parsePageRange('１ー３', 5), [[1, 2, 3]]);
+  for (const dash of ['ー', '―', '–', '—']) assert.deepEqual(parsePageRange(`1${dash}3`, 5), [[1, 2, 3]]);
+});
+
 test('「5-」は5ページから最後まで', () => {
   assert.deepEqual(parsePageRange('5-', 7), [[5, 6, 7]]);
 });

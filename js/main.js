@@ -1,9 +1,11 @@
 // アプリの入り口：各画面を準備し、URL の # に合わせて表示する画面を切り替える
 import { setupImagesScreen } from './ui/images-screen.js';
+import { setupMergeScreen } from './ui/merge-screen.js';
 
 // 画面のID → その画面を準備する関数。機能を足すときはここに追加する
 const SETUPS = {
   images: setupImagesScreen,
+  merge: setupMergeScreen,
 };
 
 for (const [id, setup] of Object.entries(SETUPS)) setup(document.getElementById(id));

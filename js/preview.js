@@ -6,11 +6,23 @@ import { canvasToBlob } from './image-decode.js';
 // 重い解析は Worker（画面とは別の裏側の処理）に任せる
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('../lib/pdf.worker.min.js', import.meta.url).href;
 
+// 必要になったときだけ読み込まれる補助ファイルの場所。
+// 白黒スキャンなどの画像の読み取り部品（wasm）、埋め込みのない日本語フォント用の文字対応表（cmaps）、
+// 標準フォント（standard_fonts）、色の変換表（iccs）。無いと画像や文字が黙って消える
+const RESOURCES = new URL('../lib/pdfjs/', import.meta.url).href;
+export const RESOURCE_OPTIONS = {
+  wasmUrl: `${RESOURCES}wasm/`,
+  cMapUrl: `${RESOURCES}cmaps/`,
+  cMapPacked: true,
+  standardFontDataUrl: `${RESOURCES}standard_fonts/`,
+  iccUrl: `${RESOURCES}iccs/`,
+};
+
 // プレビュー用にPDFを開く。
 // pdf.js は渡したデータを Worker へ引き渡して空にしてしまうため、必ずコピー（slice）を渡す
 export async function openPreviewDoc(bytes) {
   try {
-    return await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
+    return await pdfjsLib.getDocument({ data: bytes.slice(), ...RESOURCE_OPTIONS }).promise;
   } catch (err) {
     if (err?.name === 'PasswordException') throw new PdfToolError(ErrorCode.PASSWORD_PROTECTED, { cause: err });
     throw new PdfToolError(ErrorCode.INVALID_PDF, { cause: err });

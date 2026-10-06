@@ -3,6 +3,7 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { crc32, deflateSync } from 'node:zlib';
 import { PDFDocument, StandardFonts, degrees, rgb } from '../lib/pdf-lib.esm.min.js';
+import { makeCcittImagePdf, makeNonEmbeddedJapaneseFontPdf } from '../tests/helpers.js';
 
 const outDir = new URL('../samples/', import.meta.url);
 
@@ -58,6 +59,8 @@ const files = {
   'sample-60p.pdf': await numberedPdf(60),
   'rotated-2p.pdf': await numberedPdf(2, { rotate: { 2: 90 } }),
   'encrypted.pdf': await encryptedPdf(),
+  'japanese-font.pdf': await makeNonEmbeddedJapaneseFontPdf(),
+  'scan-ccitt.pdf': await makeCcittImagePdf(),
   'broken.pdf': new TextEncoder().encode('this is not a pdf'),
   'not-pdf.txt': new TextEncoder().encode('not a pdf'),
   'landscape.png': solidPng(1200, 800, [220, 60, 60]),

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { PDFDocument, degrees } from '../lib/pdf-lib.esm.min.js';
+import { PDFDocument, PDFName, PDFRawStream, PDFString, degrees } from '../lib/pdf-lib.esm.min.js';
 
 // テスト用PDFを作る。各ページの幅を「目印」にする（1ページ目=101pt、2ページ目=102pt …）
 export async function makePdf(pageCount, { rotations = {} } = {}) {
@@ -41,6 +41,58 @@ export async function makeEncryptedPdf() {
 // 0ページのPDF（addDefaultPage: false にしないと pdf-lib が白紙を1枚足してしまう）
 export async function makeEmptyPdf() {
   return (await PDFDocument.create()).save({ addDefaultPage: false });
+}
+
+// 複合機の白黒スキャンなどで使われる CCITT（ファクス方式）の画像を1つ含むPDF
+export async function makeCcittImagePdf() {
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([100, 100]);
+  const context = doc.context;
+  const dict = context.obj({
+    Type: 'XObject', Subtype: 'Image', Width: 8, Height: 8, BitsPerComponent: 1, ColorSpace: 'DeviceGray',
+    Filter: 'CCITTFaxDecode', DecodeParms: { K: -1, Columns: 8, Rows: 8 },
+  });
+  page.node.setXObject(PDFName.of('Im1'), context.register(PDFRawStream.of(dict, new Uint8Array([0xff, 0x00, 0x10, 0x01]))));
+  page.node.set(PDFName.of('Contents'), context.register(context.flateStream('q 100 0 0 100 0 0 cm /Im1 Do Q')));
+  return doc.save();
+}
+
+// フォントを埋め込まずに「日本語」と書いたPDF（古い日本語PDFによくある形。表示には文字コード対応表 CMap が要る）
+export async function makeNonEmbeddedJapaneseFontPdf() {
+  const doc = await PDFDocument.create();
+  const page = doc.addPage([300, 300]);
+  const context = doc.context;
+  const descriptor = context.register(context.obj({
+    Type: 'FontDescriptor', FontName: 'HeiseiMin-W3', Flags: 6, FontBBox: [-123, -257, 1001, 910],
+    ItalicAngle: 0, Ascent: 723, Descent: -241, CapHeight: 709, StemV: 69,
+  }));
+  const systemInfo = context.obj({ Supplement: 4 });
+  systemInfo.set(PDFName.of('Registry'), PDFString.of('Adobe'));
+  systemInfo.set(PDFName.of('Ordering'), PDFString.of('Japan1'));
+  const cidFont = context.register(context.obj({
+    Type: 'Font', Subtype: 'CIDFontType0', BaseFont: 'HeiseiMin-W3', CIDSystemInfo: systemInfo, FontDescriptor: descriptor,
+  }));
+  const font = context.register(context.obj({
+    Type: 'Font', Subtype: 'Type0', BaseFont: 'HeiseiMin-W3', Encoding: 'UniJIS-UCS2-H', DescendantFonts: [cidFont],
+  }));
+  page.node.setFontDictionary(PDFName.of('F1'), font);
+  page.node.set(PDFName.of('Contents'), context.register(context.flateStream('BT /F1 24 Tf 20 150 Td <65E5672C8A9E> Tj ET')));
+  return doc.save();
+}
+
+// fn を実行する間、pdf.js が出す警告（console.log / console.warn）を集めて返す
+export async function collectWarnings(fn) {
+  const warnings = [];
+  const { log, warn } = console;
+  console.log = (...args) => warnings.push(args.join(' '));
+  console.warn = (...args) => warnings.push(args.join(' '));
+  try {
+    await fn();
+  } finally {
+    console.log = log;
+    console.warn = warn;
+  }
+  return warnings;
 }
 
 // promise が指定のエラーコードで失敗することを確かめる

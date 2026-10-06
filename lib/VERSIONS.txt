@@ -3,4 +3,6 @@
 - pdfjs-dist 6.4.299  legacy/build/pdf.min.mjs               → pdf.min.js（拡張子を .js に変更）
 - pdfjs-dist 6.4.299  legacy/build/pdf.worker.min.mjs        → pdf.worker.min.js（同上）
 - jszip 3.10.2        dist/jszip.min.js                      → jszip.min.js
-ライセンス文は LICENSES/ にある。
+- pdfjs-dist 6.4.299  cmaps/ standard_fonts/ iccs/ wasm/     → pdfjs/ 以下（必要なときだけ読み込まれる補助ファイル）
+                      wasm/ のうち quickjs-eval.*（フォームのスクリプト実行用）は使わないため除外
+ライセンス文は LICENSES/ と、pdfjs/ の各フォルダ内（LICENSE*）にある。

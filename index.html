@@ -47,6 +47,28 @@
       <button type="button" class="primary" data-role="run" disabled>結合する</button>
       <p class="status" data-role="status" aria-live="polite"></p>
     </section>
+
+    <section id="split" class="screen" hidden>
+      <a class="back" href="#">← 戻る</a>
+      <h2>分割</h2>
+      <label class="file-button">PDFを選ぶ<input class="visually-hidden" type="file" accept="application/pdf,.pdf" data-role="input"></label>
+      <div class="messages" data-role="messages" aria-live="polite"></div>
+      <p class="info" data-role="info"></p>
+      <div data-role="options" hidden>
+        <fieldset class="options">
+          <legend>分割の方法</legend>
+          <label><input type="radio" name="split-mode" value="extract" checked> ページを選んで取り出す</label>
+          <label><input type="radio" name="split-mode" value="each"> 1ページずつバラバラに</label>
+          <label><input type="radio" name="split-mode" value="ranges"> 指定ページで区切る</label>
+        </fieldset>
+        <p class="hint" data-role="hint"></p>
+        <input class="range-input" type="text" autocomplete="off" aria-label="ページの指定" data-role="range">
+        <p class="range-error" data-role="range-error" aria-live="polite"></p>
+      </div>
+      <button type="button" class="primary" data-role="run" disabled>分割する</button>
+      <p class="status" data-role="status" aria-live="polite"></p>
+      <div class="page-grid" data-role="grid"></div>
+    </section>
   </main>
 </body>
 </html>

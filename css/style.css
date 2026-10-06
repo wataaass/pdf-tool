@@ -1,0 +1,88 @@
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1f2328;
+  --muted: #5b636e;
+  --primary: #2357c6;
+  --primary-text: #ffffff;
+  --border: #d5d9e0;
+  --error: #b42318;
+  --warning: #8a5a00;
+  --selected: #dbe6ff;
+  font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body { margin: 0; background: var(--bg); color: var(--text); line-height: 1.6; }
+.app-header { background: var(--primary); color: var(--primary-text); padding: 12px 16px; }
+.app-header h1 { margin: 0; font-size: 1.2rem; }
+main { max-width: 720px; margin: 0 auto; padding: 16px; }
+h2 { margin: 4px 0 16px; font-size: 1.3rem; }
+
+/* ホーム画面 */
+.lead { color: var(--muted); font-size: 0.9rem; }
+.home-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.home-button {
+  display: flex; align-items: center; justify-content: center; min-height: 88px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  color: var(--text); font-size: 1.1rem; font-weight: bold; text-decoration: none;
+}
+.home-button:active { background: var(--selected); }
+.back { display: inline-block; padding: 8px 0; color: var(--primary); text-decoration: none; }
+
+/* ボタン（指で押しやすいよう高さ44px以上） */
+button, .file-button {
+  font: inherit; min-height: 44px; padding: 8px 16px; border-radius: 8px;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer;
+}
+.file-button { display: inline-flex; align-items: center; }
+.file-button:has(input:disabled) { opacity: 0.5; pointer-events: none; }
+button.primary {
+  display: block; width: 100%; margin-top: 16px;
+  background: var(--primary); color: var(--primary-text); border-color: var(--primary); font-weight: bold;
+}
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.icon-button { min-width: 44px; padding: 0; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* お知らせ・エラー */
+.messages:empty { display: none; }
+.message { margin: 8px 0; padding: 8px 12px; border-radius: 8px; background: var(--surface); border-left: 4px solid var(--error); color: var(--error); }
+.message-warning { border-left-color: var(--warning); color: var(--warning); }
+.message-info { border-left-color: var(--primary); color: var(--text); }
+.status { min-height: 1.6em; color: var(--muted); text-align: center; }
+.info { font-weight: bold; }
+.hint { color: var(--muted); font-size: 0.9rem; }
+.note { color: var(--warning); font-size: 0.9rem; }
+.grew { color: var(--warning); }
+
+/* 設定 */
+.options { margin: 16px 0 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+.options label { display: block; padding: 6px 0; }
+.range-input { width: 100%; font: inherit; min-height: 44px; padding: 8px; border: 1px solid var(--border); border-radius: 8px; }
+.range-error { color: var(--error); margin: 4px 0 0; min-height: 1.6em; }
+
+/* ファイル一覧（画像→PDF・結合） */
+.file-list { list-style: none; margin: 16px 0 0; padding: 0; }
+.file-item { display: flex; align-items: center; gap: 8px; padding: 8px; margin-bottom: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.file-thumb { flex: 0 0 56px; height: 56px; display: flex; align-items: center; justify-content: center; background: var(--bg); border-radius: 4px; overflow: hidden; }
+.file-thumb img, .file-thumb canvas { max-width: 100%; max-height: 100%; }
+.file-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-detail { color: var(--muted); font-size: 0.85rem; }
+
+/* ページのプレビュー一覧（分割・回転） */
+.page-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 16px; }
+.page-tile { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px; background: var(--surface); border: 2px solid var(--border); border-radius: 8px; }
+.page-tile.selectable { cursor: pointer; }
+.page-tile.selected { border-color: var(--primary); background: var(--selected); }
+.page-thumb { width: 100%; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.page-thumb canvas { max-width: 100%; max-height: 100%; box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); transform: rotate(var(--turn, 0deg)); transition: transform 0.2s; }
+.page-label { font-size: 0.85rem; color: var(--muted); }
+.button-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+
+/* 圧縮の結果 */
+.result { margin-top: 16px; padding: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.result-preview canvas { display: block; max-width: 100%; margin: 8px auto; box-shadow: 0 1px 3px rgb(0 0 0 / 0.3); }

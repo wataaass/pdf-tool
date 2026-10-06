@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF変換ツール</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="lib/jszip.min.js" defer></script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <header class="app-header"><h1>PDF変換ツール</h1></header>
+  <main>
+    <section id="home" class="screen">
+      <p class="lead">ファイルはこの端末の中だけで処理され、どこにも送信されません。</p>
+      <nav class="home-grid">
+        <a class="home-button" href="#images">画像→PDF</a>
+        <a class="home-button" href="#merge">結合</a>
+        <a class="home-button" href="#split">分割</a>
+        <a class="home-button" href="#rotate">回転</a>
+        <a class="home-button" href="#compress">圧縮</a>
+      </nav>
+    </section>
+
+    <section id="images" class="screen" hidden>
+      <a class="back" href="#">← 戻る</a>
+      <h2>画像→PDF</h2>
+      <label class="file-button">画像を選ぶ<input class="visually-hidden" type="file" accept="image/*" multiple data-role="input"></label>
+      <div class="messages" data-role="messages" aria-live="polite"></div>
+      <ol class="file-list" data-role="list"></ol>
+      <fieldset class="options">
+        <legend>ページサイズ</legend>
+        <label><input type="radio" name="image-page-size" value="a4" checked> A4（画像を中央に収める・縦横は自動）</label>
+        <label><input type="radio" name="image-page-size" value="fit"> 画像と同じ大きさ</label>
+      </fieldset>
+      <button type="button" class="primary" data-role="run" disabled>PDFを作成</button>
+      <p class="status" data-role="status" aria-live="polite"></p>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,6 @@
+同梱している外部部品（版を固定している）
+- pdf-lib 1.17.1      dist/pdf-lib.esm.min.js                → pdf-lib.esm.min.js
+- pdfjs-dist 6.4.299  legacy/build/pdf.min.mjs               → pdf.min.js（拡張子を .js に変更）
+- pdfjs-dist 6.4.299  legacy/build/pdf.worker.min.mjs        → pdf.worker.min.js（同上）
+- jszip 3.10.2        dist/jszip.min.js                      → jszip.min.js
+ライセンス文は LICENSES/ にある。

@@ -1,4 +1,5 @@
 // アプリの入り口：各画面を準備し、URL の # に合わせて表示する画面を切り替える
+import { setupCompressScreen } from './ui/compress-screen.js';
 import { setupImagesScreen } from './ui/images-screen.js';
 import { setupMergeScreen } from './ui/merge-screen.js';
 import { setupRotateScreen } from './ui/rotate-screen.js';
@@ -10,6 +11,7 @@ const SETUPS = {
   merge: setupMergeScreen,
   split: setupSplitScreen,
   rotate: setupRotateScreen,
+  compress: setupCompressScreen,
 };
 
 for (const [id, setup] of Object.entries(SETUPS)) setup(document.getElementById(id));

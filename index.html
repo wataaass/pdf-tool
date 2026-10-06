@@ -84,6 +84,35 @@
       <p class="status" data-role="status" aria-live="polite"></p>
       <div class="page-grid" data-role="grid"></div>
     </section>
+
+    <section id="compress" class="screen" hidden>
+      <a class="back" href="#">← 戻る</a>
+      <h2>圧縮</h2>
+      <label class="file-button">PDFを選ぶ<input class="visually-hidden" type="file" accept="application/pdf,.pdf" data-role="input"></label>
+      <div class="messages" data-role="messages" aria-live="polite"></div>
+      <p class="info" data-role="info"></p>
+      <div data-role="options" hidden>
+        <fieldset class="options">
+          <legend>圧縮の方法</legend>
+          <label><input type="radio" name="compress-mode" value="light" checked> 画質そのまま（軽い圧縮）</label>
+          <label><input type="radio" name="compress-mode" value="strong"> 強く圧縮</label>
+        </fieldset>
+        <fieldset class="options" data-role="levels" hidden>
+          <legend>圧縮の強さ</legend>
+          <label><input type="radio" name="compress-level" value="low"> 弱（きれい）</label>
+          <label><input type="radio" name="compress-level" value="medium" checked> 中</label>
+          <label><input type="radio" name="compress-level" value="high"> 強（小さい）</label>
+          <p class="note">※ページを画像にするため、文字のコピー・検索ができなくなります。</p>
+        </fieldset>
+      </div>
+      <button type="button" class="primary" data-role="run" disabled>圧縮する</button>
+      <p class="status" data-role="status" aria-live="polite"></p>
+      <div class="result" data-role="result" hidden>
+        <p data-role="result-text"></p>
+        <div class="result-preview" data-role="result-preview"></div>
+        <button type="button" class="primary" data-role="save">保存</button>
+      </div>
+    </section>
   </main>
 </body>
 </html>

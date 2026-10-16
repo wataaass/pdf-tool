@@ -5,6 +5,7 @@
   "scripts": {
     "test": "node --test",
     "serve": "npx --yes http-server@14.1.1 -c-1 -p 8080 .",
-    "samples": "node tools/make-samples.js"
+    "samples": "node tools/make-samples.js",
+    "precache": "node tools/make-precache.js"
   }
 }

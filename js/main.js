@@ -1,4 +1,5 @@
 // アプリの入り口：各画面を準備し、URL の # に合わせて表示する画面を切り替える
+import { setupPwa } from './pwa.js';
 import { setupCompressScreen } from './ui/compress-screen.js';
 import { setupImagesScreen } from './ui/images-screen.js';
 import { setupMergeScreen } from './ui/merge-screen.js';
@@ -27,3 +28,6 @@ function showScreen() {
 
 window.addEventListener('hashchange', showScreen);
 showScreen();
+
+// ホーム画面に追加して、電波がなくても使えるようにする
+setupPwa(document.querySelector('.update-banner'));
